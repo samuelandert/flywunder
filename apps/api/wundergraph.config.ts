@@ -44,7 +44,7 @@ configureWunderGraphApplication({
       process.env.NODE_ENV === "production"
         ? [
           // change this before deploying to production to the actual domain where you're deploying your app
-          "https://flywunder.fly.dev",
+          "https://flywunder.vercel.app",
         ]
         : [
           "http://localhost:3000",
