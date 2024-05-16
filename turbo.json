@@ -6,20 +6,21 @@
         "^build"
       ],
       "outputs": [
-        ".next/**",
-        "!.next/cache/**",
+        ".svelte-kit/**",
         ".vercel/**",
         "generated-wundergraph/**",
-        "generated/**"
+        "generated/**",
+        "composer/**"
       ]
     },
-    "web#build": {
+    "app#build": {
       "dependsOn": [
-        "^api#build"
+        "^api#build",
+        "^composer#build"
       ],
       "outputs": [
-        ".next/**",
-        "!.next/cache/**"
+        ".svelte-kit/**",
+        "composer/**"
       ]
     },
     "lint": {

@@ -43,5 +43,7 @@ export interface CountriesResponseData {
 		code: string;
 		name: string;
 		capital?: string;
+		currencies: string[];
+		phone: string;
 	}[];
 }
