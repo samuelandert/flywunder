@@ -41,5 +41,8 @@ configureWunderGraphApplication({
     enableGraphQLEndpoint:
       process.env.NODE_ENV !== "production" ||
       process.env.GITPOD_WORKSPACE_ID !== undefined,
-  }
+  },
+  options: {
+    publicNodeUrl: process.env.NODE_ENV === 'production' ? 'https://flywunder.fly.dev' : 'http://localhost:9991'
+  },
 });

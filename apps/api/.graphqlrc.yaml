@@ -7,6 +7,6 @@ documents: '.wundergraph/operations/**/*.graphql'
 extensions:
   endpoint:
     introspect: false
-    url: 'https://flywunder.fly.dev/graphql'
+    url: 'https://localhost:9991/graphql'
     headers:
       user-agent: 'WunderGraph Client'
