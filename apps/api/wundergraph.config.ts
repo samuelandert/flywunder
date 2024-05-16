@@ -56,4 +56,7 @@ configureWunderGraphApplication({
       process.env.NODE_ENV !== "production" ||
       process.env.GITPOD_WORKSPACE_ID !== undefined,
   },
+  options: {
+    publicNodeUrl: new EnvironmentVariable("PUBLIC_NODE_URL", 'http://localhost:9991'),
+  },
 });
