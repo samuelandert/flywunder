@@ -35,9 +35,6 @@ configureWunderGraphApplication({
       },
     ],
   },
-  openApi: {
-    title: "WGStack API",
-  },
   cors: {
     ...cors.allowAll,
     allowedOrigins:
