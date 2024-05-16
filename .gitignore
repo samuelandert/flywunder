@@ -109,6 +109,11 @@ test/*.js
 .wundergraph/cache
 .wundergraph/generated
 
+# WunderGraph generated output
+/packages/generated-wundergraph/client.ts
+/packages/generated-wundergraph/claims.ts
+/packages/generated-wundergraph/models.ts
+
 # dependencies
 node_modules
 /.pnp
