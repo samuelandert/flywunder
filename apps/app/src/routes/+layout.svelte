@@ -5,6 +5,7 @@
 	import type { LayoutData } from './$types';
 	import { invalidate } from '$app/navigation';
 	import { onMount } from 'svelte';
+	import { client } from '$lib/wundergraph';
 
 	export let data: LayoutData;
 
@@ -20,9 +21,12 @@
 				invalidate('supabase:auth');
 			}
 		});
-
 		return () => data.subscription.unsubscribe();
 	});
+
+	$: if (session?.access_token) {
+		client.setAuthorizationToken(session.access_token);
+	}
 </script>
 
 <QueryClientProvider client={data.queryClient}>

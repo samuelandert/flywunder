@@ -25,6 +25,17 @@ configureWunderGraphApplication({
       }
     ],
   },
+  authentication: {
+    tokenBased: {
+      providers: [
+        {
+          userInfoEndpoint: process.env.NODE_ENV === 'production'
+            ? 'https://flywunder.vercel.app/auth/userinfo'
+            : 'http://localhost:3000/auth/userinfo',
+        },
+      ],
+    },
+  },
   cors: {
     ...cors.allowAll,
     allowedOrigins:
