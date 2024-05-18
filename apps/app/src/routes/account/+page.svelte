@@ -2,27 +2,13 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
 	import type { SubmitFunction } from '@sveltejs/kit';
-	import Avatar from './Avatar.svelte';
+	import { createQuery } from '$lib/wundergraph';
 
 	export let data;
-	export let form;
-
-	let { session, supabase, profile } = data;
-	$: ({ session, supabase, profile } = data);
-
-	let profileForm: HTMLFormElement;
 	let loading = false;
-	let fullName: string = profile?.full_name ?? '';
-	let username: string = profile?.username ?? '';
-	let website: string = profile?.website ?? '';
-	let avatarUrl: string = profile?.avatar_url ?? '';
 
-	const handleSubmit: SubmitFunction = () => {
-		loading = true;
-		return async () => {
-			loading = false;
-		};
-	};
+	let { session } = data;
+	$: ({ session } = data);
 
 	const handleSignOut: SubmitFunction = () => {
 		loading = true;
@@ -31,57 +17,32 @@
 			update();
 		};
 	};
+
+	const getUserDetailsQuery = createQuery({
+		operationName: 'getMe',
+		input: {
+			userid: session.user.id
+		}
+	});
 </script>
 
-<div class="form-widget">
-	<form
-		class="form-widget"
-		method="post"
-		action="?/update"
-		use:enhance={handleSubmit}
-		bind:this={profileForm}
-	>
-		<Avatar
-			{supabase}
-			bind:url={avatarUrl}
-			size={10}
-			on:upload={() => {
-				profileForm.requestSubmit();
-			}}
-		/>
-		<div>
-			<label for="email">Email</label>
-			<input id="email" type="text" value={session.user.email} disabled />
-		</div>
+<form method="post" action="?/signout" use:enhance={handleSignOut}>
+	<div>
+		<button class="button block" disabled={loading}>Sign Out</button>
+	</div>
+</form>
 
-		<div>
-			<label for="fullName">Full Name</label>
-			<input id="fullName" name="fullName" type="text" value={form?.fullName ?? fullName} />
-		</div>
-
-		<div>
-			<label for="username">Username</label>
-			<input id="username" name="username" type="text" value={form?.username ?? username} />
-		</div>
-
-		<div>
-			<label for="website">Website</label>
-			<input id="website" name="website" type="url" value={form?.website ?? website} />
-		</div>
-
-		<div>
-			<input
-				type="submit"
-				class="button block primary"
-				value={loading ? 'Loading...' : 'Update'}
-				disabled={loading}
-			/>
-		</div>
-	</form>
-
-	<form method="post" action="?/signout" use:enhance={handleSignOut}>
-		<div>
-			<button class="button block" disabled={loading}>Sign Out</button>
-		</div>
-	</form>
-</div>
+{#if $getUserDetailsQuery.isLoading}
+	<p>Loading user details...</p>
+{:else if $getUserDetailsQuery.error}
+	<pre>Error: {JSON.stringify($getUserDetailsQuery.error, null, 2)}</pre>
+{:else if $getUserDetailsQuery.data}
+	<div>
+		<h1>User Profile</h1>
+		<p>Username: {$getUserDetailsQuery.data.username}</p>
+		<p>Full Name: {$getUserDetailsQuery.data.fullName}</p>
+		<!-- <img src={$getUserDetailsQuery.data.avatarUrl} alt="User Avatar" /> -->
+	</div>
+{:else}
+	Nothing to see here
+{/if}
