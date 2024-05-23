@@ -1,4 +1,4 @@
-import { createOperation, z } from '../generated/wundergraph.factory';
+import { createOperation, z, AuthorizationError } from '../generated/wundergraph.factory';
 import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.SUPABASE_URL;
@@ -9,7 +9,15 @@ export default createOperation.query({
   input: z.object({
     userid: z.string(),
   }),
-  handler: async ({ input }) => {
+  handler: async ({ input, user }) => {
+
+    // console.log(user)
+
+    if (input.userid !== user?.customClaims?.id) {
+      console.error('Authorization Error: User ID does not match.');
+      throw new AuthorizationError({ message: 'User ID does not match.' });
+    }
+
     const { data: profiles, error } = await supabase
       .from('profiles')
       .select('id, username, full_name, avatar_url')
@@ -20,8 +28,6 @@ export default createOperation.query({
       console.error('Error fetching user details:', error);
       throw new Error('Failed to fetch user details');
     }
-
-    console.log('User details:', profiles);
 
     return {
       id: profiles.id,

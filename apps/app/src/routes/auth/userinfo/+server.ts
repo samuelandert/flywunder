@@ -14,7 +14,6 @@ export async function GET({ request }) {
   }
 
   try {
-    // Verify the JWT token
     const decoded = jwt.verify(token, SECRET_SUPABASE_JWT_SECRET) as JwtPayload;
 
     if (!decoded.sub) {
@@ -24,8 +23,10 @@ export async function GET({ request }) {
       id: decoded.sub,
       name: decoded.name || 'Unknown',
       email: decoded.email,
-      role: decoded.role
+      roles: [decoded.role]
     };
+
+    console.log(user)
 
     return new Response(JSON.stringify(user), { status: 200, headers: { 'Content-Type': 'application/json' } });
   } catch (err) {

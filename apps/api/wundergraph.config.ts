@@ -56,4 +56,7 @@ configureWunderGraphApplication({
   options: {
     publicNodeUrl: process.env.NODE_ENV === 'production' ? 'https://flywunder.fly.dev' : 'http://localhost:9991'
   },
+  authorization: {
+    roles: ["authenticated"],
+  },
 });

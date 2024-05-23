@@ -39,7 +39,6 @@
 			<li><a href="/" class="hover:text-gray-300">Home</a></li>
 			<li><a href="/countries" class="hover:text-gray-300">Countries</a></li>
 			<li><a href="/edit" class="hover:text-gray-300">Edit</a></li>
-			<li><a href="/account" class="hover:text-gray-300">Account</a></li>
 		</ul>
 	</nav>
 
