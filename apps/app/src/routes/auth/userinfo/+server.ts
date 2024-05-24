@@ -21,7 +21,7 @@ export async function GET({ request }) {
     }
     const user = {
       id: decoded.sub,
-      name: decoded.name || 'Unknown',
+      name: decoded.full_name || 'Unknown',
       email: decoded.email,
       roles: [decoded.role]
     };
